@@ -63,16 +63,14 @@ namespace CleanCodeOef
         //    }
         //}
 
-        // 1 Klasse met meerdere reposibilities
+        // Klasse OPPBerekenaar met meerdere reposibilities
+        // out put moet niet in oppervlakte berekenaar zitten
 
-
-       
 
         public abstract class Shape
         {
             public abstract double Opp();
         }
-
         class Circle : Shape
         {
             public int straal;
@@ -97,42 +95,9 @@ namespace CleanCodeOef
                 return lengte * lengte;
             }
         }
-
-        class Driehoek : Shape
-        {
-            public int basis;
-            public int loodlijn;
-
-            public Driehoek(int b , int l)
-            {
-                basis = b;
-                loodlijn = l;
-                
-            }
-            public override double Opp()
-            {
-                return (basis * loodlijn) / 2;
-            }
-        }
-
-        public interface IOutput {
-            string Data(String s);
-        }
-
-        public abstract class HtmlOutput: IOutput
-        {
-            public string Data(string s)
-            {
-                return "<h1>" + s + "</h1>";
-            }
-        }
-
-
-
         class OppBerekenaar
         {
             List<Shape> lijst;
-
             public OppBerekenaar()
             {
                 lijst = new List<Shape>();
@@ -143,19 +108,48 @@ namespace CleanCodeOef
             }
             private double Sum()
             {
-                double total = 0,;
+                double total = 0;
                 foreach (Shape s in lijst)
                 {
                     total += s.Opp();
                 }
-
-
                 return total;
             }
             public string Output()
             {
-                return "<h1> Totale som = " + Sum() + " </h1> ";
+                return Sum().ToString();
             }
+        }
+
+        public interface Ilog
+        {
+            string Output(String message);
+        }
+
+        public class HtmlLog : Ilog
+        {
+
+            public string Output(string message)
+            {
+                return "<p>" + message + "</p>";
+            }
+        }
+
+        public class Log : Ilog
+        {
+            public string Output(string message)
+            {
+                return message;
+            }
+        }
+
+        public void Main()
+        {
+            OppBerekenaar  ob = new OppBerekenaar();
+            ob.VoegToe(new Circle(3));
+            ob.VoegToe(new Square(4));
+            string html = new HtmlLog().Output("De totale som = "+ ob.Output());
+            string log = new Log().Output("De totale som = " + ob.Output());
         }
 
     }
