@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Oef1.cs" />
     <Compile Include="Oef2.cs" />
+    <Compile Include="Oef3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
